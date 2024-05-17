@@ -15,6 +15,7 @@ help:
 	@echo "- build-ios"
 	@echo "- build-tvos"
 	@echo "- build-macos"
+	@echo "- build-wasm"
 	@echo ""
 	@echo "- deploy-ios"
 	@echo "- deploy-tvos"
@@ -41,6 +42,12 @@ build-tvos:
 build-macos:
 	rm -rf build_arm64/
 	axmol build -c
+
+build-wasm:
+	rm -rf build_wasm/
+	axmol build -p wasm
+	cd build_wasm && make
+	cp build_wasm/bin/axmol-native-helper/axmol-native-helper.html build_wasm/bin/axmol-native-helper/index.html
 
 deploy-ios:
 	rm -rf build_ios_arm64/
