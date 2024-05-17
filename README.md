@@ -41,4 +41,4 @@ implementation 'androidx.annotation:annotation:1.8.0'
 
 ## Screenshot
 
-<img width="250" src="Extras/images/ss1.png">
+<img width="250" src="Extras/images/ss1.jpg">
