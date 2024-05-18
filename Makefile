@@ -47,7 +47,7 @@ build-wasm:
 	rm -rf build_wasm/
 	axmol build -p wasm
 	cd build_wasm && make
-	cp build_wasm/bin/axmol-native-helper/axmol-native-helper.html build_wasm/bin/axmol-native-helper/index.html
+	cp build_wasm/bin/${PROJ}/${PROJ}.html build_wasm/bin/${PROJ}/index.html
 
 deploy-ios:
 	rm -rf build_ios_arm64/
