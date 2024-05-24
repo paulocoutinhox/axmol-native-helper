@@ -70,7 +70,7 @@ if (NOT _AX_USE_PREBUILT)
     add_subdirectory(${_AX_ROOT}/core ${ENGINE_BINARY_PATH}/axmol/core)
 endif()
 
-# The common cross-platforms source files and header files
+# the common cross-platforms source files and header files
 file(GLOB_RECURSE GAME_HEADER
     Source/*.h Source/*.hpp
     )
@@ -186,6 +186,8 @@ endif()
 
 target_include_directories(${APP_NAME} PRIVATE ${GAME_INC_DIRS})
 
+# wasm
+target_link_libraries(${APP_NAME} "embind")
 
 # mark app resources, resource will be copy auto after mark
 ax_setup_app_config(${APP_NAME})
@@ -209,7 +211,7 @@ if(APPLE)
         set_xcode_property(${APP_NAME} TARGETED_DEVICE_FAMILY "1,2")
     endif()
 
-    # For code-signing, set the DEVELOPMENT_TEAM:
+    # for code-signing, set the DEVELOPMENT_TEAM:
     #set_xcode_property(${APP_NAME} DEVELOPMENT_TEAM "GRLXXXX2K9")
 elseif(WINDOWS)
     if(NOT _AX_USE_PREBUILT)
