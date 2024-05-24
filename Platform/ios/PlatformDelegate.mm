@@ -9,7 +9,7 @@ static PlatformDelegate *instance = nil;
     if (!instance) {
         instance = [[PlatformDelegate alloc] init];
     }
-    
+
     return instance;
 }
 
@@ -33,30 +33,30 @@ static PlatformDelegate *instance = nil;
 #endif
 
     // initialize your custom platform SDK here, example: Firebase, Facebook, Google etc
-    
+
     callback(@"initialized");
 }
 
 + (void)onActionStartTaskLong:(NSString *)data callback:(void(^)(NSString *))callback {
     NSURL *url = [NSURL URLWithString:@"https://httpbin.org/get"];
     NSURLSession *session = [NSURLSession sharedSession];
-    
+
     NSURLSessionDataTask *dataTask = [session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             NSLog(@"Erro na requisição: %@", error.localizedDescription);
             callback(nil);
             return;
         }
-        
+
         if (data) {
             NSString *responseBody = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            
+
             callback(responseBody);
         } else {
             callback(@"no-response");
         }
     }];
-    
+
     [dataTask resume];
 }
 
@@ -72,38 +72,38 @@ static PlatformDelegate *instance = nil;
         NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding]
                                                                  options:0
                                                                    error:&jsonError];
-        
+
         if (jsonError) {
             NSLog(@"Error parsing JSON: %@", jsonError.description);
             callback(@"json-error");
             return;
         }
-        
+
         NSString *message = jsonDict[@"message"];
-        
+
         if (!message) {
             NSLog(@"Error: 'message' not found in JSON");
             callback(@"message-not-found");
             return;
         }
-        
-        [self shared].paymentCallback = callback;
-        
+
+        [self shared].callback = callback;
+
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Alert"
                                                                        message:message
                                                                 preferredStyle:UIAlertControllerStyleAlert];
-        
+
         UIAlertAction *yesAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self handleAlertResponse:@"yes"];
         }];
-        
+
         UIAlertAction *noAction = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             [self handleAlertResponse:@"no"];
         }];
-        
+
         [alert addAction:yesAction];
         [alert addAction:noAction];
-        
+
         UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
         [rootViewController presentViewController:alert animated:YES completion:nil];
     });
@@ -111,12 +111,12 @@ static PlatformDelegate *instance = nil;
 
 + (void)handleAlertResponse:(NSString *)response {
     if ([response isEqualToString:@"yes"]) {
-        if (instance.paymentCallback) {
-            instance.paymentCallback(@"Clicked on: YES");
+        if (instance.callback) {
+            instance.callback(@"Clicked on: YES");
         }
     } else {
-        if (instance.paymentCallback) {
-            instance.paymentCallback(@"Clicked on: NO");
+        if (instance.callback) {
+            instance.callback(@"Clicked on: NO");
         }
     }
 }

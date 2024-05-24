@@ -5,7 +5,7 @@
 
 @interface PlatformDelegate : NSObject
 
-@property(nonatomic, copy) void (^paymentCallback)(NSString *);
+@property(nonatomic, copy) void (^callback)(NSString *);
 
 + (PlatformDelegate *)shared;
 + (void)performAction:(NSString *)action data:(NSString *)data callback:(void (^)(NSString *))callback;
