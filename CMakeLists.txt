@@ -187,7 +187,10 @@ endif()
 target_include_directories(${APP_NAME} PRIVATE ${GAME_INC_DIRS})
 
 # wasm
-target_link_libraries(${APP_NAME} "embind")
+if (WASM)
+    target_link_libraries(${APP_NAME} "embind")
+    set_target_properties(${APP_NAME} PROPERTIES LINK_FLAGS "--bind")
+endif()
 
 # mark app resources, resource will be copy auto after mark
 ax_setup_app_config(${APP_NAME})

@@ -24,6 +24,6 @@ void platformHelperJsCallback(std::string value) {
     }
 }
 
-EMSCRIPTEN_BINDINGS(my_module) {
+EMSCRIPTEN_BINDINGS(platform_helper_module) {
     emscripten::function("platformHelperJsCallback", &platformHelperJsCallback);
 }
