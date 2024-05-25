@@ -36,23 +36,33 @@ void PlatformHelper::onActionInitialize(const std::string &data, std::function<v
 }
 
 void PlatformHelper::onActionGetCustomerId(const std::string &data, std::function<void(std::string)> callback) {
-    // generate a UUID (this is just a placeholder, you might need a proper UUID generation method)
-    std::string uuid = "123e4567-e89b-12d3-a456-426614174000";
-    callback(uuid);
+    // clang-format off
+    EM_ASM({
+        function uuidv4() {
+            return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+                (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
+            );
+        }
+
+        Module.platformHelperJsCallback(uuidv4());
+    });
+    // clang-format on
 }
 
 void PlatformHelper::onActionStartTaskLong(const std::string &data, std::function<void(std::string)> callback) {
+    // clang-format off
     EM_ASM({
         var url = "https://httpbin.org/get";
         fetch(url)
-            .then(response = > response.text())
-            .then(data = > {
+            .then(response => response.text())
+            .then(data => {
                 Module.platformHelperJsCallback(data);
             })
-            .catch(error = > {
+            .catch(error => {
                 Module.platformHelperJsCallback("no-response");
             });
     });
+    // clang-format on
 }
 
 void PlatformHelper::onActionShowAlert(const std::string &data, std::function<void(std::string)> callback) {
