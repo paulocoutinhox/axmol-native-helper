@@ -12,9 +12,9 @@ These are the files that you need:
 
 ## Code Changes
 
-These are the code changes that you need:
+There are some small changes that you need do to your project to include this.
 
-**CMakeLists.txt:**
+### CMake root file: CMakeLists.txt
 
 Add platform directory:
 
@@ -31,11 +31,13 @@ if (WASM)
 endif()
 ```
 
-**AppDelegate.cpp:**
+### Project delegate file: AppDelegate.cpp
 
 ```cpp
 #include "common/PlatformHelperConfig.hpp"
 ```
+
+### Android project changes
 
 **proj.android/app/AndroidManifest.xml:**
 
