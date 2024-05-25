@@ -6,7 +6,7 @@ Web demo: https://axnh.netlify.app/
 
 ## Files To Add
 
-These are the files that you need:
+These are the new files that you need:
 
 - /Platform
 - /proj.android/app/src/org/axmol/platform/PlatformDelegate.java
