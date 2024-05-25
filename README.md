@@ -16,13 +16,13 @@ There are some small changes that you need do to your project to include this.
 
 ### CMake root file: CMakeLists.txt
 
-Add platform directory:
+1 - Add platform directory:
 
 ```cmake
 add_subdirectory(Platform)
 ```
 
-Add emscripten code for embind:
+2 - Add emscripten code for embind:
 
 ```cmake
 if (WASM)
@@ -33,20 +33,24 @@ endif()
 
 ### Project delegate file: AppDelegate.cpp
 
+1 - Include config file:
+
 ```cpp
 #include "common/PlatformHelperConfig.hpp"
 ```
 
 ### Android project changes
 
-**proj.android/app/AndroidManifest.xml:**
+You need this if you will use application/activity context for some UI library or SDK.
+
+1 - **proj.android/app/AndroidManifest.xml:**
 
 ```xml
 <application android:name="org.axmol.app.MainApplication"
 [...]
 ```
 
-**proj.android/app/build.gradle:**
+2 - **proj.android/app/build.gradle:**
 
 ```groovy
 implementation 'androidx.annotation:annotation:1.8.0'
