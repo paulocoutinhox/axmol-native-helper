@@ -4,6 +4,7 @@
 ROOT_DIR=${PWD}
 
 PROJ=axmol-native-helper
+GITHUB_REPO=paulocoutinhox/${PROJ}
 
 help:
 	@echo "Type: make [rule]. Available options are:"
@@ -20,6 +21,7 @@ help:
 	@echo "- deploy-ios"
 	@echo "- deploy-tvos"
 	@echo "- deploy-android"
+	@echo "- deploy-wasm"
 	@echo ""
 	@echo "- start-wasm"
 	@echo ""
@@ -86,6 +88,17 @@ deploy-tvos:
 deploy-android:
 	cd proj.android && ./gradlew clean bundleRelease
 	echo "The bundle is here: proj.android/app/build/outputs/bundle/release/${PROJ}-release.aab"
+
+deploy-wasm:
+	cd build_wasm/bin/${PROJ} && \
+	echo "/*\n  Cross-Origin-Embedder-Policy: require-corp\n  Cross-Origin-Opener-Policy: same-origin" > _headers && \
+	rm -rf .git && \
+	git init . && \
+	git branch -M gh-pages && \
+	git add --all && \
+	git commit -am "published new version" && \
+	git push "git@github.com:$(GITHUB_REPO).git" gh-pages --force && \
+	rm -rf .git
 
 start-wasm:
 	cd build_wasm/bin/${PROJ} && python3 ../../../server.py
