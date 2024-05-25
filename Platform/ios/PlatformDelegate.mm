@@ -26,13 +26,13 @@ static PlatformDelegate *instance = nil;
 }
 
 + (void)onActionInitialize:(NSString *)data callback:(void(^)(NSString *))callback {
+    // initialize your custom platform SDK here, example: Firebase, Facebook, Google etc
+
 #if defined(_AX_DEBUG)
     AXLOG("[PlatformDelegate : onActionInitialize] Initialized in debug");
 #else
     AXLOG("[PlatformDelegate : onActionInitialize] Initialized in release");
 #endif
-
-    // initialize your custom platform SDK here, example: Firebase, Facebook, Google etc
 
     callback(@"initialized");
 }

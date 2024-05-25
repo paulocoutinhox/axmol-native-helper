@@ -16,8 +16,19 @@ These are the code changes that you need:
 
 **CMakeLists.txt:**
 
+Add platform directory:
+
 ```cmake
 add_subdirectory(Platform)
+```
+
+Add emscripten code for embind:
+
+```cmake
+if (WASM)
+    target_link_libraries(${APP_NAME} "embind")
+    set_target_properties(${APP_NAME} PROPERTIES LINK_FLAGS "--bind")
+endif()
 ```
 
 **AppDelegate.cpp:**

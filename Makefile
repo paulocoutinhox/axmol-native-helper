@@ -21,6 +21,8 @@ help:
 	@echo "- deploy-tvos"
 	@echo "- deploy-android"
 	@echo ""
+	@echo "- start-wasm"
+	@echo ""
 
 format:
 	find -E Source/ -not -path '*/vendor/*' -regex '.*\.(cpp|hpp|cc|cxx|c|h)' -exec clang-format -style=file -i {} \;
@@ -84,3 +86,6 @@ deploy-tvos:
 deploy-android:
 	cd proj.android && ./gradlew clean bundleRelease
 	echo "The bundle is here: proj.android/app/build/outputs/bundle/release/${PROJ}-release.aab"
+
+start-wasm:
+	cd build_wasm/bin/${PROJ} && python3 ../../../server.py
