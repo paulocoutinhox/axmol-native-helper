@@ -14,10 +14,10 @@ void PlatformHelper::performAction(const std::string &action, const std::string 
     auto context = std::make_shared<PlatformHelperContext>(callback);
     auto contextAddress = new std::shared_ptr<PlatformHelperContext>(context);
 
-    JniHelper::callStaticVoidMethod("org.axmol.platform.PlatformDelegate", "performAction", action.c_str(), data.c_str(), reinterpret_cast<jlong>(contextAddress));
+    JniHelper::callStaticVoidMethod("dev.axmol.platform.PlatformDelegate", "performAction", action.c_str(), data.c_str(), reinterpret_cast<jlong>(contextAddress));
 }
 
-extern "C" JNIEXPORT void JNICALL Java_org_axmol_platform_PlatformDelegate_nativeOnActionComplete(JNIEnv *env, jclass clazz, jstring result, jlong contextAddress) {
+extern "C" JNIEXPORT void JNICALL Java_dev_axmol_platform_PlatformDelegate_nativeOnActionComplete(JNIEnv *env, jclass clazz, jstring result, jlong contextAddress) {
     auto contextPtr = reinterpret_cast<std::shared_ptr<PlatformHelperContext> *>(contextAddress);
 
     if (contextPtr && *contextPtr) {

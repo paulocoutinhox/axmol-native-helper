@@ -37,7 +37,7 @@ bool MainScene::init() {
         infoLabel->setString("Loading...");
 
         PlatformHelper::shared()->performAction("get-customer-id", "", [this](std::string result) {
-            ax::Director::getInstance()->getScheduler()->runOnAxmolThread([=]() {
+            ax::Director::getInstance()->getScheduler()->runOnAxmolThread([=, this]() {
                 infoLabel->setString("Response:\n\n" + result);
             });
         });
@@ -56,7 +56,7 @@ bool MainScene::init() {
         infoLabel->setString("Loading...");
 
         PlatformHelper::shared()->performAction("start-task-long", "", [this](std::string result) {
-            ax::Director::getInstance()->getScheduler()->runOnAxmolThread([=]() {
+            ax::Director::getInstance()->getScheduler()->runOnAxmolThread([=, this]() {
                 infoLabel->setString("Response:\n\n" + result);
             });
         });
@@ -77,7 +77,7 @@ bool MainScene::init() {
         std::string jsonString = R"({"message": "My alert message from JSON"})";
 
         PlatformHelper::shared()->performAction("show-alert", jsonString, [this](std::string result) {
-            ax::Director::getInstance()->getScheduler()->runOnAxmolThread([=]() {
+            ax::Director::getInstance()->getScheduler()->runOnAxmolThread([=, this]() {
                 infoLabel->setString("Response:\n\n" + result);
             });
         });

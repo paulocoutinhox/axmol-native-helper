@@ -1,4 +1,4 @@
-package org.axmol.app;
+package dev.axmol.app;
 
 import android.app.Activity;
 import android.app.Application;
