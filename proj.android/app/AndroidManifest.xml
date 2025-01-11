@@ -23,7 +23,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity=""
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
