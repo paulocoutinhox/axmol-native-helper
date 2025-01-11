@@ -9,8 +9,8 @@ Web demo: https://axnh.netlify.app/
 These are the new files that you need:
 
 - /Platform
-- /proj.android/app/src/org/axmol/platform/PlatformDelegate.java
-- /proj.android/app/src/org/axmol/app/MainApplication.java
+- /proj.android/app/src/dev/axmol/platform/PlatformDelegate.java
+- /proj.android/app/src/dev/axmol/app/MainApplication.java
 
 ## Code Changes
 
@@ -48,14 +48,14 @@ You need this if you will use application/activity context for some UI library o
 1 - **proj.android/app/AndroidManifest.xml:**
 
 ```xml
-<application android:name="org.axmol.app.MainApplication"
+<application android:name="dev.axmol.app.MainApplication"
 [...]
 ```
 
 2 - **proj.android/app/build.gradle:**
 
 ```groovy
-implementation 'androidx.annotation:annotation:1.8.0'
+implementation 'androidx.annotation:annotation:1.9.1'
 ```
 
 ## Screenshot

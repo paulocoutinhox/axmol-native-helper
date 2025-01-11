@@ -1,4 +1,4 @@
-package org.axmol.platform;
+package dev.axmol.platform;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 
-import org.axmol.app.MainApplication;
+import dev.axmol.app.MainApplication;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
