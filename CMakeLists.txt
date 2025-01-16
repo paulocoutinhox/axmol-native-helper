@@ -2,7 +2,7 @@
 # Copyright (c) 2013-2014 cocos2d-x.org
 # Copyright (c) 2019-present Axmol Engine contributors (see AUTHORS.md).
 #
-# https://axmolengine.github.io/
+# https://axmol.dev/
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
 # THE SOFTWARE.
 # ****************************************************************************/
 
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.20)
 
 set(APP_NAME axmol-native-helper)
 
@@ -70,7 +70,7 @@ if (NOT _AX_USE_PREBUILT)
     add_subdirectory(${_AX_ROOT}/core ${ENGINE_BINARY_PATH}/axmol/core)
 endif()
 
-# the common cross-platforms source files and header files
+# The common cross-platforms source files and header files
 file(GLOB_RECURSE GAME_HEADER
     Source/*.h Source/*.hpp
     )
@@ -179,6 +179,10 @@ else()
     config_android_shared_libs("dev.axmol.lib" "${CMAKE_CURRENT_SOURCE_DIR}/proj.android/app/src")
 endif()
 
+if (NOT _AX_USE_PREBUILT)
+    target_link_libraries(${APP_NAME} ${_AX_CORE_LIB})
+endif()
+
 # The optional thirdparties(not dependent by engine)
 if (AX_WITH_YAML_CPP)
     list(APPEND GAME_INC_DIRS "${_AX_ROOT}/3rdparty/yaml-cpp/include")
@@ -194,9 +198,6 @@ endif()
 
 # mark app resources, resource will be copy auto after mark
 ax_setup_app_config(${APP_NAME})
-if (NOT _AX_USE_PREBUILT)
-    target_link_libraries(${APP_NAME} ${_AX_CORE_LIB})
-endif()
 
 if(APPLE)
     set_target_properties(${APP_NAME} PROPERTIES RESOURCE "${APP_UI_RES}")
@@ -214,7 +215,7 @@ if(APPLE)
         set_xcode_property(${APP_NAME} TARGETED_DEVICE_FAMILY "1,2")
     endif()
 
-    # for code-signing, set the DEVELOPMENT_TEAM:
+    # For code-signing, set the DEVELOPMENT_TEAM:
     #set_xcode_property(${APP_NAME} DEVELOPMENT_TEAM "GRLXXXX2K9")
 elseif(WINDOWS)
     if(NOT _AX_USE_PREBUILT)
