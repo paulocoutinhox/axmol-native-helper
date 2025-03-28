@@ -22,6 +22,10 @@ static PlatformDelegate *instance = nil;
         [self onActionStartTaskLong:data callback:callback];
     } else if ([action isEqualToString:@"show-alert"]) {
         [self onActionShowAlert:data callback:callback];
+    } else if ([action isEqualToString:@"chain-step1"]) {
+        [self onActionChainStep1:data callback:callback];
+    } else if ([action isEqualToString:@"chain-step2"]) {
+        [self onActionChainStep2:data callback:callback];
     }
 }
 
@@ -43,7 +47,7 @@ static PlatformDelegate *instance = nil;
 
     NSURLSessionDataTask *dataTask = [session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
-            NSLog(@"Erro na requisição: %@", error.localizedDescription);
+            NSLog(@"Request error: %@", error.localizedDescription);
             callback(nil);
             return;
         }
@@ -119,6 +123,52 @@ static PlatformDelegate *instance = nil;
             instance.callback(@"Clicked on: NO");
         }
     }
+}
+
++ (void)onActionChainStep1:(NSString *)data callback:(void(^)(NSString *))callback {
+    NSURL *url = [NSURL URLWithString:@"https://httpbin.org/get"];
+    NSURLSession *session = [NSURLSession sharedSession];
+
+    NSURLSessionDataTask *dataTask = [session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error) {
+            NSLog(@"Request error: %@", error.localizedDescription);
+            callback(nil);
+            return;
+        }
+
+        if (data) {
+            NSString *responseBody = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+
+            callback(responseBody);
+        } else {
+            callback(@"no-response");
+        }
+    }];
+
+    [dataTask resume];
+}
+
++ (void)onActionChainStep2:(NSString *)data callback:(void(^)(NSString *))callback {
+    NSURL *url = [NSURL URLWithString:@"https://httpbin.org/get"];
+    NSURLSession *session = [NSURLSession sharedSession];
+
+    NSURLSessionDataTask *dataTask = [session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error) {
+            NSLog(@"Request error: %@", error.localizedDescription);
+            callback(nil);
+            return;
+        }
+
+        if (data) {
+            NSString *responseBody = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+
+            callback(responseBody);
+        } else {
+            callback(@"no-response");
+        }
+    }];
+
+    [dataTask resume];
 }
 
 @end

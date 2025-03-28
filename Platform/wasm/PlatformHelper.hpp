@@ -18,4 +18,6 @@ private:
     void onActionGetCustomerId(const std::string &data, std::function<void(std::string)> callback);
     void onActionStartTaskLong(const std::string &data, std::function<void(std::string)> callback);
     void onActionShowAlert(const std::string &data, std::function<void(std::string)> callback);
+    void onActionChainStep1(const std::string &data, std::function<void(std::string)> callback);
+    void onActionChainStep2(const std::string &data, std::function<void(std::string)> callback);
 };

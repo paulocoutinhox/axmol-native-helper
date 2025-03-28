@@ -84,8 +84,39 @@ bool MainScene::init() {
     });
     addChild(btShowAlert);
 
-    currentY -= btShowAlert->getContentSize().height + (padding * 2);
+    currentY -= btShowAlert->getContentSize().height + padding;
 
+    // chain action
+    auto btChainAction = Button::create();
+    btChainAction->setTitleText("> Chain Action");
+    btChainAction->setTitleFontName("fonts/Marker Felt.ttf");
+    btChainAction->setTitleFontSize(38);
+    btChainAction->setPosition(Vec2(origin.x + visibleSize.width / 2, currentY - btChainAction->getContentSize().height / 2));
+    btChainAction->addClickEventListener([&](Object *sender) {
+        infoLabel->setString("Loading...");
+
+        std::string jsonString = R"({"step1": true})";
+
+        PlatformHelper::shared()->performAction("chain-step1", jsonString, [this](std::string result) {
+            ax::Director::getInstance()->getScheduler()->runOnAxmolThread([=, this]() {
+                infoLabel->setString("Response Chain Step 1:\n\n" + result);
+                
+                infoLabel->setString("Loading step 2...");
+                
+                std::string jsonString = R"({"step2": true})";
+
+                PlatformHelper::shared()->performAction("chain-step2", jsonString, [this](std::string result) {
+                    ax::Director::getInstance()->getScheduler()->runOnAxmolThread([=, this]() {
+                        infoLabel->setString("Response Chain Step 2:\n\n" + result);
+                    });
+                });
+            });
+        });
+    });
+    addChild(btChainAction);
+
+    currentY -= btChainAction->getContentSize().height + (padding * 2);
+    
     // info label
     infoLabel = Label::createWithTTF("", "fonts/Marker Felt.ttf", 28);
     infoLabel->setPosition(Vec2(origin.x + visibleSize.width / 2, currentY - infoLabel->getContentSize().height / 2));

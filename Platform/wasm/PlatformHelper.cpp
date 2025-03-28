@@ -20,6 +20,10 @@ void PlatformHelper::performAction(const std::string &action, const std::string 
         onActionStartTaskLong(data, callback);
     } else if (action == "show-alert") {
         onActionShowAlert(data, callback);
+    } else if (action == "chain-step1") {
+        onActionChainStep1(data, callback);
+    } else if (action == "chain-step2") {
+        onActionChainStep2(data, callback);
     }
 }
 
@@ -84,6 +88,38 @@ void PlatformHelper::onActionShowAlert(const std::string &data, std::function<vo
         }
     },
                 data.c_str());
+}
+
+void PlatformHelper::onActionChainStep1(const std::string &data, std::function<void(std::string)> callback) {
+    // clang-format off
+    EM_ASM({
+        var url = "https://httpbin.org/get";
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                Module.platformHelperJsCallback(data);
+            })
+            .catch(error => {
+                Module.platformHelperJsCallback("no-response");
+            });
+    });
+    // clang-format on
+}
+
+void PlatformHelper::onActionChainStep2(const std::string &data, std::function<void(std::string)> callback) {
+    // clang-format off
+    EM_ASM({
+        var url = "https://httpbin.org/get";
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                Module.platformHelperJsCallback(data);
+            })
+            .catch(error => {
+                Module.platformHelperJsCallback("no-response");
+            });
+    });
+    // clang-format on
 }
 
 void platformHelperJsCallback(std::string value) {

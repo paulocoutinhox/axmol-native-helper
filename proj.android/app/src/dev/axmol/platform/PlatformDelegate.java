@@ -33,6 +33,14 @@ public class PlatformDelegate {
             case "show-alert":
                 onActionShowAlert(action, data, contextAddress);
                 break;
+
+            case "chain-step1":
+                onActionChainStep1(action, data, contextAddress);
+                break;
+
+            case "chain-step2":
+                onActionChainStep2(action, data, contextAddress);
+                break;
         }
     }
 
@@ -114,6 +122,78 @@ public class PlatformDelegate {
         } else {
             nativeOnActionComplete("Clicked on: NO", contextAddress);
         }
+    }
+
+    private static void onActionChainStep1(String action, String data, final long contextAddress) {
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... voids) {
+                try {
+                    URL url = new URL("https://httpbin.org/get");
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    try {
+                        BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                        StringBuilder response = new StringBuilder();
+                        String inputLine;
+                        while ((inputLine = in.readLine()) != null) {
+                            response.append(inputLine);
+                        }
+                        in.close();
+                        return response.toString();
+                    } finally {
+                        urlConnection.disconnect();
+                    }
+                } catch (Exception e) {
+                    Log.e("PLATFORM-HELPER", "Error in chain-step1", e);
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                if (result != null) {
+                    nativeOnActionComplete(result, contextAddress);
+                } else {
+                    nativeOnActionComplete("no-response", contextAddress);
+                }
+            }
+        }.execute();
+    }
+
+    private static void onActionChainStep2(String action, String data, final long contextAddress) {
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... voids) {
+                try {
+                    URL url = new URL("https://httpbin.org/get");
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    try {
+                        BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                        StringBuilder response = new StringBuilder();
+                        String inputLine;
+                        while ((inputLine = in.readLine()) != null) {
+                            response.append(inputLine);
+                        }
+                        in.close();
+                        return response.toString();
+                    } finally {
+                        urlConnection.disconnect();
+                    }
+                } catch (Exception e) {
+                    Log.e("PLATFORM-HELPER", "Error in chain-step2", e);
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                if (result != null) {
+                    nativeOnActionComplete(result, contextAddress);
+                } else {
+                    nativeOnActionComplete("no-response", contextAddress);
+                }
+            }
+        }.execute();
     }
 
     public static native void nativeOnActionComplete(String result, long contextAddress);
