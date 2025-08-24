@@ -50,7 +50,7 @@ build-macos:
 
 build-wasm:
 	rm -rf build_wasm/
-	axmol build -p wasm
+	axmol build -p wasm -xb '--config','Release'
 	cd build_wasm && make
 	cp build_wasm/bin/${PROJ}/${PROJ}.html build_wasm/bin/${PROJ}/index.html
 
