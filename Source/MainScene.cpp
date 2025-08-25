@@ -21,7 +21,7 @@ bool MainScene::init() {
     float currentY = safeOrigin.y + safeArea.size.height;
 
     // title label
-    auto titleLabel = Label::createWithTTF("Platform Helper", "fonts/Marker Felt.ttf", 50);
+    auto titleLabel = Label::createWithTTF("Native Helper", "fonts/Marker Felt.ttf", 50);
     titleLabel->setPosition(Vec2(origin.x + visibleSize.width / 2, currentY - titleLabel->getContentSize().height / 2));
     addChild(titleLabel);
 
@@ -100,9 +100,9 @@ bool MainScene::init() {
         PlatformHelper::shared()->performAction("chain-step1", jsonString, [this](std::string result) {
             ax::Director::getInstance()->getScheduler()->runOnAxmolThread([=, this]() {
                 infoLabel->setString("Response Chain Step 1:\n\n" + result);
-                
+
                 infoLabel->setString("Loading step 2...");
-                
+
                 std::string jsonString = R"({"step2": true})";
 
                 PlatformHelper::shared()->performAction("chain-step2", jsonString, [this](std::string result) {
@@ -116,7 +116,7 @@ bool MainScene::init() {
     addChild(btChainAction);
 
     currentY -= btChainAction->getContentSize().height + (padding * 2);
-    
+
     // info label
     infoLabel = Label::createWithTTF("", "fonts/Marker Felt.ttf", 28);
     infoLabel->setPosition(Vec2(origin.x + visibleSize.width / 2, currentY - infoLabel->getContentSize().height / 2));

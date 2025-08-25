@@ -1,4 +1,4 @@
-# Axmol Platform Helper
+# Axmol Native Helper
 
 This is a project that add the ability to call specific `Platform Functions`.
 
