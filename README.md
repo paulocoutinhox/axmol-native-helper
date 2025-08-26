@@ -58,6 +58,21 @@ You need this if you will use application/activity context for some UI library o
 implementation 'androidx.annotation:annotation:1.9.1'
 ```
 
+### ProGuard Rules
+
+To prevent ProGuard from removing or obfuscating the necessary classes during the build process, add these rules to your `proj.android/app/proguard-rules.pro` file:
+
+```proguard
+-keep public class dev.axmol.** { *; }
+-keepnames class dev.axmol.**
+-dontwarn dev.axmol.**
+```
+
+These rules ensure that:
+- All classes in the `dev.axmol` package and sub-packages are preserved
+- Class names remain unchanged
+- No warnings are generated for these classes
+
 ## Screenshot
 
 <img width="250" src="Extras/images/ss1.jpg">

@@ -18,6 +18,7 @@
 
 # Proguard Axmol for release
 -keep public class dev.axmol.** { *; }
+-keepnames class dev.axmol.**
 -dontwarn dev.axmol.**
 
 # Proguard Apache HTTP for release
